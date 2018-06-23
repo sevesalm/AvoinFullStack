@@ -1,0 +1,9 @@
+title /spa (POST)
+
+User->Browser: 1. User fills the input field and presses enter
+Browser->Server: 2. POST new_note_spa
+note right of Browser: The browser adds the new content to DOM
+note left of Browser: The user sees the page with added content
+note right of Server: Server saves the note to DB
+Server->Browser: 3. Response: new_note_spa (201)
+note right of Browser: Server response doesn't affect the DOM

@@ -1,0 +1,17 @@
+title /notes (POST)
+
+User->Browser: 1. User fills the input field and presses enter
+Browser->Server: 2. POST new_note
+note right of Server: Server saves the note to DB
+Server->Browser: 3. Response: new_note (302) 
+Browser->Server: 4. GET notes
+Server->Browser: 5. Response: notes (200) 
+Browser->Server: 6. GET main.js
+Browser->Server: 6. GET main.css
+Server->Browser: 7. Response: main.js (200) 
+Server->Browser: 7. Response: main.css (200) 
+Browser->Server: 8. GET data.json
+note right of Server: Server sends all notes including the new
+Server->Browser: 9. Response: data.json (200) 
+note right of Browser: The browser inserts the data into DOM
+note left of Browser: The user sees the final page with added content

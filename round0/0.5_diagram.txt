@@ -1,0 +1,12 @@
+title /spa
+
+User->Browser: 1. User enters the URL
+Browser->Server: 2. GET spa
+Server->Browser: 3. Response: spa (200) 
+Browser->Server: 4. GET spa.js
+Browser->Server: 4. GET main.css
+Server->Browser: 5. Response: spa.js (200) 
+Server->Browser: 5. Response: main.css (200) 
+Browser->Server: 6. GET data.json
+Server->Browser: 7. Response: data.json (200) 
+note left of Browser: The user sees the final page with dynamic content
