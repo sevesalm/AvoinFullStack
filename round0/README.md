@@ -1,6 +1,6 @@
 # Round 0
 
-The basic network request and response flow is shown in the images below. 
+Solutions to exercises 0.3 - 0.6 are shown below.
 
 ## 0.3 solution
 
