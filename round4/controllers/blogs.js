@@ -55,7 +55,7 @@ blogsRouter.delete("/:id", async (req, res) => {
     }
 
     const blog = await Blog.findById(req.params.id);
-    if (blog.user.toString() !== decodedToken.id) {
+    if (blog.user && blog.user.toString() !== decodedToken.id) {
       return res.status(403).send({ error: "Not authorized" });
     }
     await Blog.findByIdAndRemove(req.params.id);
@@ -74,11 +74,11 @@ blogsRouter.put("/:id", async (req, res) => {
   try {
     const result = await Blog.findByIdAndUpdate(
       req.params.id,
-      { likes: req.body.likes },
+      { ...req.body },
       {
         new: true
       }
-    );
+    ).populate("user", { username: 1, name: 1 });
     res.json(Blog.format(result));
   } catch (err) {
     console.log(err);
