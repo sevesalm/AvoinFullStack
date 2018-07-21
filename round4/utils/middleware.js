@@ -1,3 +1,5 @@
+const morgan = require("morgan");
+
 const getToken = (req, res, next) => {
   let token = null;
   const authorization = req.get("Authorization");
@@ -9,5 +11,6 @@ const getToken = (req, res, next) => {
 };
 
 module.exports = {
-  getToken
+  getToken,
+  morgan
 };
