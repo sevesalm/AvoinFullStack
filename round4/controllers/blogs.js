@@ -32,9 +32,13 @@ blogsRouter.post("/", async (req, res) => {
     });
 
     const result = await blog.save();
+    const populated = await result
+      .populate("user", { username: 1, name: 1 })
+      .execPopulate();
+
     user.blogs = user.blogs.concat(result._id);
     await user.save();
-    return res.status(201).json(Blog.format(result));
+    return res.status(201).json(Blog.format(populated));
   } catch (err) {
     if (err.name === "JsonWebTokenError") {
       res.status(401).json({ error: err.message });
