@@ -1,28 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const infoStyle = {
   background: "#efe",
   border: "solid 1px #afa"
 };
 
-const errorStyle = {
-  background: "#fee",
-  border: "solid 1px #faa"
-};
+// const errorStyle = {
+//   background: "#fee",
+//   border: "solid 1px #faa"
+// };
 
-const Notification = ({ data }) =>
-  data ? (
-    <div style={data.type === "error" ? errorStyle : infoStyle}>
-      {data.message}
-    </div>
-  ) : null;
+const Notification = ({ notification }) =>
+  notification && <div style={infoStyle}>{notification.message}</div>;
 
-Notification.propTypes = {
-  data: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
-  })
-};
+function mapStateToProps(state) {
+  return { notification: state.notification };
+}
 
-export default Notification;
+export default connect(mapStateToProps)(Notification);

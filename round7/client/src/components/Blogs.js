@@ -1,19 +1,17 @@
-import React from "react";
-import Blog from "./Blog";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const Blogs = ({ blogs, incrementLikes, loggedInUser, deleteBlog }) => (
+const Blogs = ({ blogs }) => (
   <div className="blogs">
-    {blogs
-      .sort((a, b) => b.likes - a.likes)
-      .map(blog => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          incrementLikes={incrementLikes}
-          loggedInUser={loggedInUser}
-          deleteBlog={deleteBlog}
-        />
+    <ul>
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog => (
+        <li key={blog.id}>
+          <NavLink to={`/blogs/${blog.id}`}>
+            {blog.title} by {blog.author}
+          </NavLink>
+        </li>
       ))}
+    </ul>
   </div>
 );
 
