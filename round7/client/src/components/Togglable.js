@@ -1,5 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
+
+// Component no longer in use, left as an example
 
 class Togglable extends React.Component {
   constructor(props) {
@@ -18,8 +20,8 @@ class Togglable extends React.Component {
   };
 
   render() {
-    const hideWhenVisible = { display: this.state.visible ? "none" : "" };
-    const showWhenVisible = { display: this.state.visible ? "" : "none" };
+    const hideWhenVisible = { display: this.state.visible ? 'none' : '' };
+    const showWhenVisible = { display: this.state.visible ? '' : 'none' };
 
     return (
       <div>

@@ -1,43 +1,34 @@
-import React from "react";
-import { mount } from "enzyme";
-import App, { LOCAL_STORAGE_USER_KEY } from "./App";
-jest.mock("./services/blogs");
-// import blogService from "./services/blogs";
+import puppeteer from 'puppeteer';
+import React from 'react';
 
-describe("App", () => {
-  let app;
+describe('<App />', () => {
+  test('renders the blogs h1 title', async () => {
+    let browser = await puppeteer.launch({});
+    let page = await browser.newPage();
 
-  describe("when not logged in", () => {
-    beforeEach(() => {
-      app = mount(<App />);
-      window.localStorage.clear();
-    });
+    await page.goto('http://localhost:3000');
+    await page.waitForSelector('h1');
 
-    it("renders only the login button", () => {
-      app.update();
-      const blogView = app.find(".blog-view");
-      expect(blogView.length).toEqual(0);
-    });
+    const header = await page.$eval('h1', e => e.innerHTML);
+    expect(header).toEqual('Blogs');
+
+    browser.close();
   });
 
-  describe("when logged in", () => {
-    beforeEach(() => {
-      const user = {
-        username: "testuser",
-        name: "Test User",
-        token: "123123123"
-      };
+  test('login fails with invalid credentials', async () => {
+    let browser = await puppeteer.launch({});
+    let page = await browser.newPage();
 
-      window.localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
-
-      app = mount(<App />);
-    });
-
-    it("renders a list of blogs", () => {
-      app.update();
-      const blogView = app.find(".blog-view");
-      expect(blogView.length).toEqual(1);
-      expect(app.find(".blog .blog-title").length).toEqual(2);
-    });
+    await page.goto('http://localhost:3000');
+    await page.waitForSelector('h1');
+    await page.click('.login-dialog-button');
+    await page.waitForSelector('.login-modal');
+    await page.type('#username', 'john');
+    await page.type('#password', 'password');
+    await page.click('.login-button');
+    await page.waitForSelector('.notification');
+    const result = await page.$eval('.notification', e => e.innerHTML);
+    expect(result).toEqual('Invalid credentials');
+    browser.close();
   });
 });

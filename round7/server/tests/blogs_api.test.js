@@ -1,25 +1,25 @@
-const supertest = require("supertest");
-const { app, server } = require("../index");
+const supertest = require('supertest');
+const { app, server } = require('../index');
 const api = supertest(app);
-const Blog = require("../models/blog");
-const User = require("../models/user");
+const Blog = require('../models/blog');
+const User = require('../models/user');
 const {
   initialBlogs,
   getAllBlogs,
   initialUsers,
   getAllUsers
-} = require("./test_helper");
+} = require('./test_helper');
 
-describe("/api", () => {
+describe('/api', () => {
   let rootTokenInfo = null;
 
   beforeAll(async () => {
     const loginData = {
-      username: "root",
-      password: "password"
+      username: 'root',
+      password: 'password'
     };
 
-    const result = await api.post("/api/login").send(loginData);
+    const result = await api.post('/api/login').send(loginData);
     rootTokenInfo = result.body;
   });
 
@@ -27,7 +27,7 @@ describe("/api", () => {
     server.close();
   });
 
-  describe("/api/blogs", () => {
+  describe('/api/blogs', () => {
     beforeAll(() => {
       console.log = jest.fn();
     });
@@ -42,28 +42,29 @@ describe("/api", () => {
       await Promise.all(userObjects.map(item => item.save()));
     });
 
-    test("a valid new blog is added", async () => {
+    test('a valid new blog is added', async () => {
       const blogs = await getAllBlogs();
 
       const newBlog = {
-        author: "Tester",
-        title: "Test title",
-        url: "http://test.com",
+        author: 'Tester',
+        title: 'Test title',
+        url: 'http://test.com',
         likes: 5
       };
 
       const postRes = await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
         .expect(201)
-        .expect("Content-Type", /application\/json/);
+        .expect('Content-Type', /application\/json/);
 
-      expect(postRes.body).toMatchObject(newBlog);
+      expect(postRes.body).toMatchObject({ ...newBlog, comments: [] });
 
-      const getRes = await api.get("/api/blogs");
+      const getRes = await api.get('/api/blogs');
       expect(getRes.body).toContainEqual({
         ...newBlog,
+        comments: [],
         id: expect.anything(),
         user: expect.objectContaining({
           username: rootTokenInfo.username,
@@ -75,123 +76,136 @@ describe("/api", () => {
 
     test("a blog can't be added without the authorization token", async () => {
       const newBlog = {
-        author: "Tester",
-        title: "Test title",
-        url: "http://test.com",
+        author: 'Tester',
+        title: 'Test title',
+        url: 'http://test.com',
         likes: 5
       };
 
       await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
         .expect(401);
     });
 
     test("a blog can't be added with an incorrect authorization token", async () => {
       const newBlog = {
-        author: "Tester",
-        title: "Test title",
-        url: "http://test.com",
+        author: 'Tester',
+        title: 'Test title',
+        url: 'http://test.com',
         likes: 5
       };
 
       await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
-        .set("Authorization", "bearer 1234567890")
+        .set('Authorization', 'bearer 1234567890')
         .expect(401);
     });
 
-    test("like count is initialized if not given", async () => {
+    test('like count is initialized if not given', async () => {
       const newBlog = {
-        author: "Tester",
-        title: "Test title",
-        url: "http://test.com"
+        author: 'Tester',
+        title: 'Test title',
+        url: 'http://test.com'
       };
       const postRes = await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
 
         .expect(201)
-        .expect("Content-Type", /application\/json/);
+        .expect('Content-Type', /application\/json/);
 
       expect(postRes.body).toMatchObject({ ...newBlog, likes: 0 });
     });
 
-    test("missing title results in an error", async () => {
+    test('missing title results in an error', async () => {
       const newBlog = {
-        author: "Tester",
-        url: "http://test.com"
+        author: 'Tester',
+        url: 'http://test.com'
       };
 
       await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
         .expect(400);
     });
 
-    test("missing url results in an error", async () => {
+    test('missing url results in an error', async () => {
       const newBlog = {
-        author: "Tester",
-        title: "Test title"
+        author: 'Tester',
+        title: 'Test title'
       };
 
       await api
-        .post("/api/blogs")
+        .post('/api/blogs')
         .send(newBlog)
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
         .expect(400);
     });
 
-    test("initial blogs are returned as json", async () => {
+    test('missing author is allowed', async () => {
+      const newBlog = {
+        title: 'Test title',
+        url: 'http://test.com'
+      };
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
+        .expect(201);
+    });
+
+    test('initial blogs are returned as json', async () => {
       const res = await api
-        .get("/api/blogs")
+        .get('/api/blogs')
         .expect(200)
-        .expect("Content-Type", /application\/json/);
+        .expect('Content-Type', /application\/json/);
 
       expect(res.body.length).toBe(initialBlogs.length);
 
       initialBlogs.forEach(item =>
         expect(res.body).toContainEqual({
-          ...Blog.format(item),
+          ...Blog.format({ ...item, comments: [] }),
           user: expect.anything()
         })
       );
     });
 
-    test("existing blog is deleted", async () => {
+    test('existing blog is deleted', async () => {
       await api
         .delete(`/api/blogs/${initialBlogs[0]._id}`)
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
         .expect(204);
       const result = await getAllBlogs();
       expect(result.length).toBe(initialBlogs.length - 1);
     });
 
-    test("invalid id results an error when deleting", async () => {
+    test('invalid id results an error when deleting', async () => {
       await api
-        .delete("/api/blogs/invalid-id")
-        .set("Authorization", `bearer ${rootTokenInfo.token}`)
-        .expect(400, { error: "Invalid id" });
+        .delete('/api/blogs/invalid-id')
+        .set('Authorization', `bearer ${rootTokenInfo.token}`)
+        .expect(400, { error: 'Invalid id' });
     });
 
     test("user can't delete a blog of another user", async () => {
       const loginData = {
-        username: "user",
-        password: "password"
+        username: 'user',
+        password: 'password'
       };
 
-      const result = await api.post("/api/login").send(loginData);
+      const result = await api.post('/api/login').send(loginData);
       const tokenInfo = result.body;
       await api
         .delete(`/api/blogs/${initialBlogs[0]._id}`)
-        .set("Authorization", `bearer ${tokenInfo.token}`)
-        .expect(403, { error: "Not authorized" });
+        .set('Authorization', `bearer ${tokenInfo.token}`)
+        .expect(403, { error: 'Not authorized' });
     });
 
-    test("updating likes on an existing blog", async () => {
+    test('updating likes on an existing blog', async () => {
       const updatedBlog = {
         likes: 100
       };
@@ -201,9 +215,21 @@ describe("/api", () => {
         .expect(200);
       expect(result.body).toMatchObject({ likes: 100 });
     });
+
+    test('comment can be added', async () => {
+      const comment = 'This is a comment';
+
+      const result = await api
+        .post(`/api/blogs/${initialBlogs[0]._id}/comments`)
+        .send({ comment })
+        .expect(200);
+
+      expect(result.body.comments.length).toEqual(1);
+      expect(result.body.comments[0]).toEqual(comment);
+    });
   });
 
-  describe("/api/users", () => {
+  describe('/api/users', () => {
     beforeAll(() => {
       console.log = jest.fn();
     });
@@ -215,51 +241,60 @@ describe("/api", () => {
       await Promise.all(userObjects.map(item => item.save()));
     });
 
+    test('returs the list of all users', async () => {
+      const result = await api
+        .get('/api/users')
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(result.body.length).toEqual(2);
+    });
+
     test("an existing username can't be added", async () => {
       const newUser = {
-        username: "root",
-        password: "password",
-        name: "Test User",
+        username: 'root',
+        password: 'password',
+        name: 'Test User',
         isAdult: true
       };
 
       await api
-        .post("/api/users")
+        .post('/api/users')
         .send(newUser)
-        .expect(400, { error: "Username already exists" })
-        .expect("Content-Type", /application\/json/);
+        .expect(400, { error: 'Username already exists' })
+        .expect('Content-Type', /application\/json/);
     });
 
-    test("a password too short is not accepted", async () => {
+    test('a password too short is not accepted', async () => {
       const newUser = {
-        username: "super-user",
-        password: "ss",
-        name: "Test User",
+        username: 'super-user',
+        password: 'ss',
+        name: 'Test User',
         isAdult: true
       };
 
       await api
-        .post("/api/users")
+        .post('/api/users')
         .send(newUser)
-        .expect(400, { error: "Invalid or missing password" })
-        .expect("Content-Type", /application\/json/);
+        .expect(400, { error: 'Invalid or missing password' })
+        .expect('Content-Type', /application\/json/);
     });
 
-    test("a valid new user is added", async () => {
+    test('a valid new user is added', async () => {
       const users = await getAllUsers();
 
       const newUser = {
-        username: "test-user",
-        password: "password",
-        name: "Test User",
+        username: 'test-user',
+        password: 'password',
+        name: 'Test User',
         isAdult: true
       };
 
       const postRes = await api
-        .post("/api/users")
+        .post('/api/users')
         .send(newUser)
         .expect(201)
-        .expect("Content-Type", /application\/json/);
+        .expect('Content-Type', /application\/json/);
 
       expect(postRes.body).toMatchObject({
         username: newUser.username,

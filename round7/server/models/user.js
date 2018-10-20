@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
   username: String,
   passwordHash: String,
   name: String,
   isAdult: Boolean,
-  blogs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blog" }]
+  blogs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }]
 });
 
 UserSchema.statics.format = user => {
@@ -18,6 +18,6 @@ UserSchema.statics.format = user => {
   };
 };
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

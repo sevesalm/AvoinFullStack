@@ -1,5 +1,7 @@
-# Assignments for Full stack open 2018
+# Solutions to Round 7
 
-This repository contains my answers for Open University's [Full stack open](https://fullstackopen.github.io) course assignments. Each round has it's own directory in this repository with the exception of round 3.
+The client code is in [client](client/) folder.
 
-_Round 3 has a separate repository [here](https://github.com/sevesalm/AvoinFullStackRound3)_.
+The server code is in [server](server/) folder.
+
+Further info in the folders.

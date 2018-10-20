@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User renders correctly 1`] = `
+<div
+  className="user"
+>
+  <h1>
+    Test User
+  </h1>
+  <h2>
+    Added blogs
+  </h2>
+  <nav
+    className="MuiList-root-1 MuiList-padding-2"
+  >
+    <a
+      aria-current={null}
+      className="MuiButtonBase-root-15 MuiListItem-root-5 MuiListItem-default-8 MuiListItem-gutters-12 MuiListItem-button-13"
+      href="/blogs/12345"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      style={undefined}
+      tabIndex="0"
+    >
+      <div
+        className="MuiListItemText-root-18"
+      >
+        <span
+          className="MuiTypography-root-24 MuiTypography-subheading-31 MuiListItemText-primary-21"
+        >
+          Title by Author
+        </span>
+      </div>
+      <span
+        className="MuiTouchRipple-root-49"
+      />
+    </a>
+  </nav>
+</div>
+`;

@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Blog renders correctly 1`] = `
+<div
+  className="blog"
+  style={
+    Object {
+      "border": "solid 1px #555",
+      "borderRadius": "5px",
+      "boxShadow": "2px 2px 8px #888",
+      "margin": "1em",
+      "padding": "0.5em",
+    }
+  }
+>
+  <h2
+    className="MuiTypography-root-1 MuiTypography-title-7 blog-title"
+  >
+    Test Title
+  </h2>
+  <p
+    className="MuiTypography-root-1 MuiTypography-body1-10 blog-author"
+  >
+    by 
+    Test Author
+  </p>
+  <div
+    className="blog-details"
+  >
+    <p
+      className="MuiTypography-root-1 MuiTypography-body1-10"
+    >
+      <a
+        href="http://test.com"
+      >
+        http://test.com
+      </a>
+    </p>
+    <p
+      className="MuiTypography-root-1 MuiTypography-body1-10"
+    >
+      10
+       likes
+    </p>
+    <button
+      className="MuiButtonBase-root-52 MuiButton-root-26 MuiButton-contained-37 MuiButton-containedPrimary-38 MuiButton-raised-40 MuiButton-raisedPrimary-41"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-27"
+      >
+        Like
+      </span>
+      <span
+        className="MuiTouchRipple-root-55"
+      />
+    </button>
+     
+    <button
+      className="MuiButtonBase-root-52 MuiButton-root-26 MuiButton-contained-37 MuiButton-raised-40"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-27"
+      >
+        Delete
+      </span>
+      <span
+        className="MuiTouchRipple-root-55"
+      />
+    </button>
+    <p
+      className="MuiTypography-root-1 MuiTypography-body1-10"
+    >
+      added by 
+      Unknown
+    </p>
+    <div
+      className="blog-comments"
+    >
+      <p
+        className="MuiTypography-root-1 MuiTypography-body1-10"
+      >
+        Comments
+      </p>
+      <ul>
+        <li>
+          Is good
+        </li>
+        <li>
+          Meh
+        </li>
+        <li>
+          Is baad
+        </li>
+      </ul>
+    </div>
+  </div>
+  <form
+    onSubmit={[Function]}
+  >
+    <input
+      name="comment"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <button
+      className="MuiButtonBase-root-52 MuiButton-root-26 MuiButton-text-28 MuiButton-flat-31"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="submit"
+    >
+      <span
+        className="MuiButton-label-27"
+      >
+        Add comment
+      </span>
+      <span
+        className="MuiTouchRipple-root-55"
+      />
+    </button>
+  </form>
+</div>
+`;

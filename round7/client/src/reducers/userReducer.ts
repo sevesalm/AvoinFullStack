@@ -1,7 +1,17 @@
 import userService from '../services/users';
-const initialState = null;
 
-const reducer = (store = initialState, action) => {
+export interface IUser {
+  id: string;
+  username: string;
+  name: string;
+  isAdult: boolean;
+  blogs: any[];
+  [propname: string]: any;
+}
+
+const initialState: IUser[] | null = null;
+
+const reducer = (store: IUser[] | null = initialState, action: any) => {
   switch (action.type) {
     case 'INIT_USERS':
       return action.users;
@@ -12,7 +22,7 @@ const reducer = (store = initialState, action) => {
 
 export const userActions = {
   initUsers() {
-    return async dispatch => {
+    return async (dispatch: any) => {
       const users = await userService.getAll();
       return dispatch({
         type: 'INIT_USERS',

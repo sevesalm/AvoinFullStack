@@ -1,1 +1,3 @@
-# Solutions to Round 4 exercises 4.1 - 4.21
+## Round 7 server
+
+Mostly the same as in Round 4 with some added features and tests.
